@@ -3,14 +3,12 @@
     <input @click="getQA" type="button" value="データ取得">
     <div class="choiceContainer">
         <!-- 質問 -->
-        <div v-for="questionData in questionDatas" class="choiceItem">
+        <div v-for="questionData in questionDatas" class="choiceItem" v-bind:key="questionData.questionNo">
             <div>{{ questionData.questionNo }}</div>
-            <div>{{ questionData.questionText }}</div>
+            <div>{{ questionData.questionText }}</div> 
             <!-- 回答 -->
-            <div v-for="choiceData in questionData.questionData" class="choiceItem">
-                <div>{{ choiceData.choice }}</div>
-                <div>{{ choiceData.answer }}</div>
-                <div>{{ choiceData.message }}</div>
+            <div v-for="(choiceData, index) in questionData.questionData" class="choiceItem" v-bind:key="index">
+              <ChoiceArea v-bind:choice-data="choiceData"/>
             </div>
         </div>
     </div>
@@ -19,12 +17,17 @@
 
 <script>
 import Repository from "./../repositories/Repository";
+import ChoiceArea from './Choice.vue'
 
 export default {
-  name: 'app',
+  name: 'questionArea',
+  components: {
+    ChoiceArea
+  },
   data() {
     return {
-      questionDatas: []
+      questionDatas: [],
+      isActive01: false
     }
   },
   methods: {
