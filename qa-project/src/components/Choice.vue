@@ -1,13 +1,15 @@
+<!-- 選択肢コンポーネント -->
 <template>
   <div id="choiceArea">
     <!-- 選択肢 -->
-    <div v-on:click="clickChoice">
-      <div>{{ choiceData.choice }}</div>
+    <div v-on:click="clickChoice" class="b-1">
+      <div class="m-5">{{ choiceData.choice }}</div>
     </div>
     <!-- 回答 -->
-    <div v-if="isActive">
-      <div>{{ choiceData.answer }}</div>
-      <div>{{ choiceData.message }}</div>
+    <!-- <div v-if="isActive"> -->
+    <div v-if="isAnswer">
+      {{ choiceData.answer }}
+      {{ choiceData.message }}
     </div>
   </div>
 </template>
@@ -16,7 +18,7 @@
 
 export default {
   name: 'choiceArea',
-  props: ['choice-data'],
+  props: ['choice-data','is-answer'],
   data() {
     return {
       isActive: false
