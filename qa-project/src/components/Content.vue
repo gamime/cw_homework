@@ -5,7 +5,10 @@
     <div v-if="questionDatas.length>0" class="m-5">
       <!-- <div v-for="(questionData, index) in questionDatas" v-bind:key="questionData.questionNo"> -->
         <!-- 質問 -->
-        <question-area v-bind:question-data="questionDatas[activNo-1]" :is-answer="isAnswer"/>
+        <question-area
+          v-bind:question-data="questionDatas[activNo-1]"
+                :is-answer="isAnswer"
+          ref="questionRef" />
       <!-- </div> -->
     </div>
     <!-- フッダ -->
@@ -32,7 +35,7 @@ export default {
       questionDatas: [],
       activNo: 1,
       maxNo: 0,
-      isAnswer: false
+      isAnswer: false,
     }
   },
   methods: {
@@ -43,18 +46,30 @@ export default {
       this.maxNo = this.questionDatas.length;
     },
     checkAnswer: function() {
+        // 回答を表示
         this.isAnswer = !this.isAnswer;
+        if (this.isAnswer) {
+            // 正誤を判定
+            this.$refs.questionRef.checkAnswer();
+        } else {
+            // リセット
+            this.$refs.questionRef.questionReset();
+        }
     },
     backQuestion: function() {
         if (this.maxNo <= this.activNo) {
             this.activNo = this.activNo-1;
             this.isAnswer = false;
+            // 状態リセット
+            this.$refs.questionRef.questionReset();
         }
     },
     nextQuestion: function() {
         if (this.maxNo > this.activNo) {
             this.activNo = this.activNo+1;
             this.isAnswer = false;
+            // 状態リセット
+            this.$refs.questionRef.questionReset();
         }
     }
   }
