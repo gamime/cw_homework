@@ -40,7 +40,13 @@ export default {
 .mt-5 {
   margin-top: 5px;
 }
+.mr-5 {
+  margin-right: 5px;
+}
 .b-1 {
   border: 1px solid #aaa;
+}
+.text-b {
+  font-weight: bolder;
 }
 </style>
