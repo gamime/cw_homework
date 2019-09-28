@@ -14,7 +14,8 @@
             :choice-data="choiceData"
             :is-answer="isAnswer"
             :index="index"
-      v-on:updateRightAnswerCount="updateRightAnswerCount"
+      v-on:countRightAnswer="countRightAnswer"
+      v-on:countUnRightAnswer="countUnRightAnswer"
       v-on:updateChoiceCount="updateChoiceCount"
       ref="choiceRef" />
   </div>
@@ -34,10 +35,10 @@ export default {
   },
   data() {
     return {
-      // 質問の正当数
-      'rightNum': 0,
-      // 回答の正当数
+      // 正解数
       'rightSelectNum': 0,
+      // 不正解数
+      'unRightSelectNum': 0,
       // 正解フラグ
       'isAnswerTrue': false,
       // 不正解フラグ
@@ -47,25 +48,28 @@ export default {
     }
   },
   methods: {
-    // 正当数の設定
-    setRightNum: function() {
-      var questions = this.questionData.questionData;
-
-      this.rightNum = 0;
-      for (var i=0; questions.length>i; i++) {
-        if (questions[i].answer == "正解") {
-          this.rightNum++;
-        }
+    // 正解数カウント処理
+    countRightAnswer: function(isActive) {
+      if (isActive) {
+        // 選択OFF⇨ON
+        // 正解数をプラス
+        this.rightSelectNum++;
+      } else {
+        // 選択ON⇨OFF
+        // 正解数をマイナス
+        this.rightSelectNum--;
       }
     },
-    // 回答の正否を設定
-    updateRightAnswerCount: function(isAnswer) {
-      if (isAnswer) {
-        // 正解の場合、回答の正当数をプラス
-        this.rightSelectNum++;
-      } else if (!isAnswer && this.rightSelectNum > 0) {
-        // 不正解、かつ、回答の正当数がゼロより大きい場合、マイナス
-        this.rightSelectNum--;
+    // 不正解数カウント処理
+    countUnRightAnswer: function(isActive) {
+      if (isActive) {
+        // 選択OFF⇨ON
+        // 不正解数をプラス
+        this.unRightSelectNum++;
+      } else {
+        // 選択ON⇨OFF
+        // 不正解数をマイナス
+        this.unRightSelectNum--;
       }
     },
     // 選択肢の選択状態を設定
@@ -87,17 +91,30 @@ export default {
     },
     // 回答チェック
     checkAnswer: function() {
-      // 正当数を設定
-      this.setRightNum();
-      if (this.rightNum == this.rightSelectNum) {
-        // 質問の正当数=選択した正当数の場合、正解
+      // 正当数
+      var rightNum = this.getRightNum();
+
+      if (rightNum == this.rightSelectNum && this.unRightSelectNum == 0) {
+        // 正解
         this.isAnswerTrue = true;
         this.isAnswerFalse = false;
       } else {
-        // 質問の正当数=選択した正当数の場合、不正解
+        // 不正解
         this.isAnswerTrue = false;
         this.isAnswerFalse = true;
       }
+    },
+    // 正当数の設定
+    getRightNum: function() {
+      var questions = this.questionData.questionData;
+
+      var rightNum = 0;
+      for (var i=0; questions.length>i; i++) {
+        if (questions[i].answer == "正解") {
+          rightNum++;
+        }
+      }
+      return rightNum;
     },
     // リセット
     questionReset: function() {
@@ -105,6 +122,7 @@ export default {
         this.$refs.choiceRef[i].choiceReset();
       }
       this.rightSelectNum = 0;
+      this.unRightSelectNum = 0;
       this.isAnswerTrue = false;
       this.isAnswerFalse = false;
     }

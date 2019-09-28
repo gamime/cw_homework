@@ -35,12 +35,12 @@ export default {
       }
 
       // 回答の判定と設定
-      if (this.isActive && this.choiceData.answer === "正解") {
-        // 【質問コンポーネント】回答の正否を設定
-        this.$emit('updateRightAnswerCount', true);
+      if (this.choiceData.answer === "正解") {
+        // 【質問コンポーネント】正解数カウント
+        this.$emit('countRightAnswer', this.isActive);
       } else {
-        // 親コンポーネント：回答を設定
-        this.$emit('updateRightAnswerCount', false);
+        // 【質問コンポーネント】不正解数カウント
+        this.$emit('countUnRightAnswer', this.isActive);
       }
     },
     // リセット
