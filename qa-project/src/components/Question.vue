@@ -6,7 +6,9 @@
       <div class="text-b" v-if="isAnswerTrue">正解</div>
       <div class="text-b" v-if="isAnswerFalse">不正解</div>
     </div>
-    <div class="mt-5 text-b">{{ questionData.questionText }}</div> 
+    <div class="mt-5 text-b">
+      <pre>{{ questionData.questionText }}</pre>
+    </div> 
     <!-- 回答 -->
     <choice-area class="mt-5"
       v-for="(choiceData, index) in questionData.questionData"
