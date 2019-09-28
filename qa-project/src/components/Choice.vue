@@ -2,7 +2,7 @@
 <template>
   <div class="choiceArea">
     <!-- 選択肢 -->
-    <div v-on:click="clickChoice" v-bind:class="{ checked: isActive }" class="b-1">
+    <div v-on:click="clickChoice" v-bind:class="{ checked: isActive, none_click: isAnswer }" class="b-1">
       <div class="m-5">{{ choiceData.choice }}</div>
     </div>
     <!-- 回答 -->
@@ -54,5 +54,8 @@ export default {
 <style>
 .checked {
   background-color: #90e4d3;
+}
+.none_click {
+  pointer-events: none;
 }
 </style>

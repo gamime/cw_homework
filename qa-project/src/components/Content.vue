@@ -64,7 +64,7 @@ export default {
     },
     // 「前へ」ボタンクリック処理
     backQuestion: function() {
-        if (this.maxNo <= this.activNo) {
+        if (this.activNo <= this.maxNo) {
             this.activNo = this.activNo-1;
             this.isAnswer = false;
             if (this.activNo == 1) {
@@ -78,7 +78,7 @@ export default {
     },
     // 「次へ」ボタンクリック処理
     nextQuestion: function() {
-        if (this.maxNo > this.activNo) {
+        if (this.activNo < this.maxNo) {
             this.activNo = this.activNo+1;
             this.isAnswer = false;
             this.isDisabledBackButton = false;

@@ -57,7 +57,6 @@ export default {
           this.rightNum++;
         }
       }
-      console.log('初期表示のrightNum', this.rightNum);
     },
     // 回答の正否を設定
     updateRightAnswerCount: function(isAnswer) {
