@@ -49,4 +49,10 @@ export default {
 .text-b {
   font-weight: bolder;
 }
+pre {
+  /** Mozilla */
+  white-space: -moz-pre-wrap;
+  /** CSS3 */
+  white-space: pre-wrap;
+}
 </style>
